@@ -7,7 +7,9 @@ from app.models.user import User
 
 router = APIRouter()
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Use pbkdf2_sha256 instead of bcrypt to avoid version compatibility issues
+# pbkdf2_sha256 is built-in to passlib, no external dependencies
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 # Dependency to get DB session

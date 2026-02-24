@@ -12,7 +12,6 @@ function Home() {
 
   const navigate = useNavigate();
 
-  // Protect route
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user) {
@@ -32,51 +31,64 @@ function Home() {
 
       setResult(response.data.content);
     } catch (error) {
-      alert("Error generating content");
+      alert("Error generating content: " + error.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("user");
-  //   navigate("/login");
-  // };
-
   return (
     <div className="container">
-      {/* <button
-        style={{ position: "absolute", top: "20px", right: "20px" }}
-        onClick={handleLogout}
-      >
-        Logout
-      </button> */}
-
       <div className="card">
         <h1>AI Marketing Content Generator</h1>
 
-        <input
-          type="text"
-          placeholder="Enter Topic"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-        />
+        <div style={{ marginTop: "20px" }}>
+          <label style={{ display: "block", marginBottom: "8px", textAlign: "left", fontSize: "12px", color: "#00d4ff", fontWeight: "600" }}>Topic</label>
+          <input
+            type="text"
+            placeholder="e.g., Summer Sale, New Product"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+          />
+        </div>
 
-        <input
-          type="text"
-          placeholder="Platform (Instagram, LinkedIn...)"
-          value={platform}
-          onChange={(e) => setPlatform(e.target.value)}
-        />
+        <div style={{ marginTop: "15px" }}>
+          <label style={{ display: "block", marginBottom: "8px", textAlign: "left", fontSize: "12px", color: "#00d4ff", fontWeight: "600" }}>Platform</label>
+          <select
+            value={platform}
+            onChange={(e) => setPlatform(e.target.value)}
+            style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #333", backgroundColor: "#111", color: "white", outline: "none", cursor: "pointer" }}
+          >
+            <option value="">Select Platform</option>
+            <option value="Instagram">Instagram</option>
+            <option value="LinkedIn">LinkedIn</option>
+            <option value="Twitter">Twitter/X</option>
+            <option value="Facebook">Facebook</option>
+            <option value="TikTok">TikTok</option>
+          </select>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Tone (Professional, Casual...)"
-          value={tone}
-          onChange={(e) => setTone(e.target.value)}
-        />
+        <div style={{ marginTop: "15px" }}>
+          <label style={{ display: "block", marginBottom: "8px", textAlign: "left", fontSize: "12px", color: "#00d4ff", fontWeight: "600" }}>Tone</label>
+          <select
+            value={tone}
+            onChange={(e) => setTone(e.target.value)}
+            style={{ width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #333", backgroundColor: "#111", color: "white", outline: "none", cursor: "pointer" }}
+          >
+            <option value="">Select Tone</option>
+            <option value="Professional">Professional</option>
+            <option value="Casual">Casual & Fun</option>
+            <option value="Inspirational">Inspirational</option>
+            <option value="Urgent">Urgent & Bold</option>
+            <option value="Educational">Educational</option>
+          </select>
+        </div>
 
-        <button onClick={generateContent} disabled={loading}>
+        <button 
+          onClick={generateContent} 
+          disabled={loading || !topic || !platform || !tone}
+          style={{ marginTop: "20px" }}
+        >
           {loading ? "Generating..." : "Generate Content"}
         </button>
 
