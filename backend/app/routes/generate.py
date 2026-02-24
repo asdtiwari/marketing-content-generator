@@ -7,4 +7,7 @@ router = APIRouter()
 @router.post("/generate")
 async def generate_marketing_content(request: ContentRequest):
     content = generate_content(request)
-    return {"content": content}
+    
+    return {
+        "content": content
+    }
